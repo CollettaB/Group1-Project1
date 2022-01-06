@@ -3,16 +3,13 @@ import pandas as pd
 import datetime
 import yfinance as yf
 
-def input_portfolio():
-    '''
-    Request user to input tickers of cryptocurrencies they wish to fetch data for
-    '''
+def input_cryptos():
     ticker_list = []
     ticker = ""
     print("Please enter the tickers of your cryptocurrencies one by one")
     print("Type done when finished.")
     while ticker.casefold() != "done":
-        ticker = str(input("Ticker: "))
+        ticker = str.upper(input("Ticker: "))
        
                            
         if ticker.casefold() != "done":
@@ -22,10 +19,10 @@ def input_portfolio():
                                
     print(f"Crpytocurrencies selected:")
     print(ticker_list)
+    
+    # Adds "-USD" suffix to each crypto ticker for compatibility with yfinance
+    ticker_list = pd.DataFrame(columns=ticker_list).add_suffix('-USD').columns.tolist()
     return ticker_list
-
-        
-ticker_list = input_portfolio()
 
                         
 
