@@ -4,6 +4,9 @@ import datetime
 import yfinance as yf
 
 def input_cryptos():
+    '''
+    Requests user to key in crypto tickers, and appends to a list
+    '''
     ticker_list = []
     ticker = ""
     print("Please enter the tickers of your cryptocurrencies one by one")
