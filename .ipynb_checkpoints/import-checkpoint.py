@@ -3,7 +3,31 @@ import pandas as pd
 import datetime
 import yfinance as yf
 
+def input_portfolio():
+    '''
+    Request user to input tickers of cryptocurrencies they wish to fetch data for
+    '''
+    ticker_list = []
+    ticker = ""
+    print("Please enter the tickers of your cryptocurrencies one by one")
+    print("Type done when finished.")
+    while ticker.casefold() != "done":
+        ticker = str(input("Ticker: "))
+       
+                           
+        if ticker.casefold() != "done":
+            ticker_list.append(ticker)
+        else:
+            break
+                               
+    print(f"Crpytocurrencies selected:")
+    print(ticker_list)
+    return ticker_list
 
+        
+ticker_list = input_portfolio()
+
+                        
 
 def get_ticker_data(tickers, years_back, freq = 'D'):
     '''
