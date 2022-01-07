@@ -1,4 +1,4 @@
-import fetch-data as fd
+import fetch_data as fd
 
 
 def main():
