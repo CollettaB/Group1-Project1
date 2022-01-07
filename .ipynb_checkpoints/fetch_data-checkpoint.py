@@ -28,11 +28,10 @@ def input_cryptos():
     ticker_list = pd.DataFrame(columns=ticker_list).add_suffix('-USD').columns.tolist()
     return ticker_list
 
-                        
-# Function to get ticker data. years_back set to 3 by default, given most altcoins don't have a price history dating back more than that. 
+      # Function to get ticker data. years_back set to 3 by default, given most altcoins don't have a price history dating back more than that. 
 def get_ticker_data(ticker_list, years_back = 3):
     ''''
-    Fetches OHLCV data from Yahoo Finance API
+    Fetches OHLCV data from Yahoo Finance API. Also records daily returns as a separate column within the dataframe.
 
     Parameters:
     ticker_list (list): A list of cryptocurrency tickers for which data is to be fetched
@@ -78,6 +77,7 @@ def get_ticker_data(ticker_list, years_back = 3):
                 d[(ticker, "low")] = crypto_df["Low"]
                 d[(ticker, "close")] = crypto_df["Close"]
                 d[(ticker, "volume")] = crypto_df["Volume"]
+                d[(ticker, "daily_return")] = crypto_df['Close'].pct_change()
         except Exception:
             None
     d = pd.DataFrame(d)
