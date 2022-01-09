@@ -3,9 +3,9 @@ import pandas as pd
 import datetime
 import yfinance as yf
 
-def input_cryptos():
+def get_portfolio_data():
     '''
-    Requests user to key in crypto tickers, and appends to a list
+    Requests user to key in crypto tickers, and appends to a list.
     '''
     ticker_list = []
     ticker = ""
@@ -19,20 +19,31 @@ def input_cryptos():
             ticker_list.append(ticker)
         else:
             break
-    print(f"--------------------------")                      
-    print(f"Crpytocurrencies selected:")
-    print(*ticker_list, sep=', ')
-    print(f"--------------------------")  
     
     # Adds "-USD" suffix to each crypto ticker for compatibility with yfinance
     ticker_list = pd.DataFrame(columns=ticker_list).add_suffix('-USD').columns.tolist()
     return ticker_list
 
-      # Function to get ticker data. years_back set to 3 by default, given most altcoins don't have a price history dating back more than that. 
+def get_investment_amt():
+    '''
+    Requests investment amount from user. 
+    '''
+    investment_amount = ""
+    while type(investment_amount) is not float:
+        try:
+            investment_amount = float(input("How much do you wish to invest in total?\n"
+                                            "(Please input amount without currency symbol)\n"))
+        except Exception:
+            print('Error: Please input a numerical value\n'
+                 'Remember not to include the currency symbol\n')    
+    return investment_amount
+
+
 def get_ticker_data(ticker_list, years_back = 3):
     ''''
-    Fetches OHLCV data from Yahoo Finance API. Also records daily returns as a separate column within the dataframe.
-
+    Iterates through each ticker in user portfolio and fetches OHLCV data from Yahoo Finance API into a pandas dataframe. 
+    Also records daily returns for each cryptocurrency as separate columns within the same dataframe.
+    
     Parameters:
     ticker_list (list): A list of cryptocurrency tickers for which data is to be fetched
     years_back (int): Number of years back from the current date, for which data is to be fetched
@@ -57,7 +68,7 @@ def get_ticker_data(ticker_list, years_back = 3):
         print("\nError: You have selected an invalid interval")
         interval = str(input(
             f"Please select the interval: \n"
-            f"(Valid intervals: 1d, 5d, 1wk, 1mo, 3mo)"
+            f"(Valid intervals: 1d, 5d, 1wk, 1mo, 3mo)\n"
         )
                       )
                               
@@ -65,8 +76,11 @@ def get_ticker_data(ticker_list, years_back = 3):
         try:
             # download the crypto price 
             crypto = yf.Ticker(ticker)
-            crypto_df = crypto.history(start = start, end = end, interval = interval)
-            crypto_df.dropna(inplace = True)
+            crypto_df = crypto.history(
+                start = start, 
+                end = end, 
+                interval = interval
+            )
             
             # append the individual crpyto prices 
             if len(crypto_df) == 0:
@@ -81,4 +95,5 @@ def get_ticker_data(ticker_list, years_back = 3):
         except Exception:
             None
     d = pd.DataFrame(d)
+    d.dropna(inplace = True)
     return d
