@@ -1,6 +1,10 @@
-import data_prep as dp
-import pandas as pd
+import optimiseprime.data_prep as dp
+import optimiseprime.data_analysis as da
 
+import pandas as pd
+import yfinance as yf
+import quantstats as qs
+qs.extend_pandas()
 
 def main():
     
@@ -50,6 +54,26 @@ def main():
         print(f"Investment amount:")
         print(f"${investment_amount:.2f}")
         print(f"--------------------------")
+        
+    # Calculate each of the following risk-reward ratio types
+    sharpe = calculate_sharpe_ratio(ticker_list, portfolio_df)
+    sortino =  calculate_sortino_ratio(ticker_list, portfolio_df)
+    adjusted_sortino = calculate_adjusted_sortino(ticker_list, portfolio_df)
+    gain_pain_ratio = calculate_gain_pain_ratio(ticker_list, portfolio_df)
+
+    # Store all ratios into a pandas dataframe
+    ratios_df = pd.DataFrame(
+        {
+        'sharpe': sharpe,
+        'sortino': sortino,
+        'adjusted_sortino': adjusted_sortino,
+        'gain_pain_ratio': gain_pain_ratio
+        }
+    )
+    
+    # Calculate proportion scores for each risk-reward metric
+    ratio_prop_score = da.calculate_proportion_score(ratios_df)
+
 
 if __name__ == '__main__':
     main()
