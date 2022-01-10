@@ -6,17 +6,16 @@ Optimise Prime is a programme that helps user analyse their current or hypotheti
 
 ## Keying in your crypto portfolio.
 
-Within `data_prep.py`
-* The `get_hypothetical_portfolio` function asks the user to key in the cryptocurrencies in their portfolio as tickers, one at a time. Each ticker will then be stored within a list. 
-* The `get_existing_portfolio` function asks the user to key in crypto tickers in their existing portfolio followed by the no. of units held, and records the data into a dict
+Within `fetch_data.py`, the `input_cryptos` function asks the user to key in the cryptocurrencies in their portfolio as tickers, one at a time. Each ticker will then be stored within a list. 
 
 
 ## Retrieval of data
 
 
-Within `data_prep.py`, the `get_ticker_data` function serves to retrieve cryptocurrency historic price data (OHLCV) using *yfinance's* `.history()` attribute.
+Within `fetch_data.py`, the `get_crypto_data` function serves to retrieve cryptocurrency historic price data (OHLCV) using *yfinance's* `.history()` attribute.
 *yfinance* is a library that retrieves data from Yahoo! Finance's API. See library information [here](https://pypi.org/project/yfinance/).
 
+Users are first required to select a timeframe for which the data is to be retrieved. Valid timeframes include '1d', '5d', '1wk', '1mo', and '3mo'.
 Data retrieved from **yfinance** will converted into a pandas dataframe, with an extra column consisting of computed daily returns.
 
 
