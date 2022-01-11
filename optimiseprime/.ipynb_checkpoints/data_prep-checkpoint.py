@@ -36,13 +36,14 @@ def get_existing_portfolio():
     
     # Keep requesting input from user if user has not typed 'done'
     while ticker.casefold() != "done":
-        try:
-            ticker = str.upper(input("Ticker: "))
-            if ticker.casefold()!= "done":
-                amount = float(input("No. of units: "))
-                ticker_dict[ticker] = amount
-        except Exception:
-            print("Invalid input. Please ensure you are keying in a valid ticker and a valid number of units.")         
+        #try:
+        ticker = str.upper(input("Ticker: "))
+        if ticker.casefold()!= "done":
+            amount = float(input("No. of units: "))
+            ticker_dict[ticker] = []
+            ticker_dict[ticker].append({'units': amount})
+        #except Exception:
+            #print("Invalid input. Please ensure you are keying in a valid ticker and a valid number of units.")         
     return ticker_dict
 
     

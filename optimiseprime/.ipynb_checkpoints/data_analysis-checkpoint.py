@@ -95,12 +95,16 @@ def sharpe_portfolio(ratios_df, weights, portfolio_value):
     sharpe_allocation = {}
     # Print Sharpe ratios and recommended portfolio weightings.
     for ticker, ratio in sharpe_ratios.iteritems():
-        print(f"{ticker}: {ratio:.2f}")
-        print(f"Recommended percentage of total portfolio: {weights.loc[ticker][0]*100:.2f}%")
-
+        print(
+            f"{ticker:<35}{ratio:.2f}",
+            f"\n{'Recommended % of total portfolio':<35}{weights.loc[ticker][0]*100:.2f}%"
+            )
         # Record sharpe ratios as key-value pairs in a dict
         sharpe_allocation[ticker] = portfolio_value * weights.loc[ticker][0]
-        print(f"Recommended value allocation = ${sharpe_allocation[ticker]:.2f}\n")
+        print(
+            f"{'Recommended value allocation':<35}{'$'}{sharpe_allocation[ticker]:.2f}\n"
+        )
+              
     # Convert sharpe_allocation dict to pd.Series
     sharpe_allocation= pd.Series(sharpe_allocation)
     return sharpe_allocation
@@ -123,12 +127,15 @@ def sortino_portfolio(ratios_df, weights, portfolio_value):
     sortino_allocation = {}
     # Print sortino ratios and recommended portfolio weightings.
     for ticker, ratio in sortino_ratios.iteritems():
-        print(f"{ticker}: {ratio:.2f}")
-        print(f"Recommended percentage of total portfolio: {weights.loc[ticker][0]*100:.2f}%")
-
-        # Record sortino ratios as key-value pairs in a dict
-        sortino_allocation[ticker] = portfolio_value * weights.loc[ticker][0]
-        print(f"Recommended value allocation = ${sortino_allocation[ticker]:.2f}\n")
+        print(
+            f"{ticker:<35}{ratio:.2f}",
+            f"\n{'Recommended % of total portfolio':<35}{weights.loc[ticker][1]*100:.2f}%"
+            )
+        # Record sharpe ratios as key-value pairs in a dict
+        sortino_allocation[ticker] = portfolio_value * weights.loc[ticker][1]
+        print(
+            f"{'Recommended value allocation':<35}{'$'}{sortino_allocation[ticker]:.2f}\n"
+        )
     # Convert sortino_allocation dict to pd.Series
     sortino_allocation= pd.Series(sortino_allocation)
     return sortino_allocation
@@ -151,12 +158,15 @@ def adj_sortino_portfolio(ratios_df, weights, portfolio_value):
     adj_sortino_allocation = {}
     # Print adj sortino ratios and recommended portfolio weightings.
     for ticker, ratio in adj_sortino_ratios.iteritems():
-        print(f"{ticker}: {ratio:.2f}")
-        print(f"Recommended percentage of total portfolio: {weights.loc[ticker][0]*100:.2f}%")
-
-        # Record adj sortino ratios as key-value pairs in a dict
-        adj_sortino_allocation[ticker] = portfolio_value * weights.loc[ticker][0]
-        print(f"Recommended value allocation = ${adj_sortino_allocation[ticker]:.2f}\n")
+        print(
+            f"{ticker:<35}{ratio:.2f}",
+            f"\n{'Recommended % of total portfolio':<35}{weights.loc[ticker][2]*100:.2f}%"
+            )
+        # Record adj_sortino ratios as key-value pairs in a dict
+        adj_sortino_allocation[ticker] = portfolio_value * weights.loc[ticker][2]
+        print(
+            f"{'Recommended value allocation':<35}{'$'}{adj_sortino_allocation[ticker]:.2f}\n"
+        )
     # Convert adj_sortino_allocation dict to pd.Series
     adj_sortino_allocation= pd.Series(adj_sortino_allocation)
     return adj_sortino_allocation
@@ -179,12 +189,15 @@ def gain_pain_portfolio(ratios_df, weights, portfolio_value):
     gain_pain_allocation = {}
     # Print gain pain ratios and recommended portfolio weightings.
     for ticker, ratio in gain_pain_ratios.iteritems():
-        print(f"{ticker}: {ratio:.2f}")
-        print(f"Recommended percentage of total portfolio: {weights.loc[ticker][0]*100:.2f}%")
-
-        # Record gain pain ratios as key-value pairs in a dict
-        gain_pain_allocation[ticker] = portfolio_value * weights.loc[ticker][0]
-        print(f"Recommended value allocation = ${gain_pain_allocation[ticker]:.2f}\n")
+        print(
+            f"{ticker:<35}{ratio:.2f}",
+            f"\n{'Recommended % of total portfolio':<35}{weights.loc[ticker][3]*100:.2f}%"
+            )
+        # Record sharpe ratios as key-value pairs in a dict
+        gain_pain_allocation[ticker] = portfolio_value * weights.loc[ticker][3]
+        print(
+            f"{'Recommended value allocation':<35}{'$'}{gain_pain_allocation[ticker]:.2f}\n"
+        )
     # Convert gain_pain_allocation dict to pd.Series
     gain_pain_allocation= pd.Series(gain_pain_allocation)
     return gain_pain_allocation
