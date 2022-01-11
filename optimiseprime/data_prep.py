@@ -108,6 +108,7 @@ def get_ticker_data(ticker_list, years_back = 3):
             # append the individual crpyto prices 
             if len(crypto_df) == 0:
                 None
+            # Create dataframe with multiindexed columns. Data will need to be in this format for mcforecast script
             else:
                 d[(ticker, "open")] = crypto_df['Open']
                 d[(ticker, "high")] = crypto_df['High']
