@@ -62,6 +62,7 @@ def get_investment_amt():
     return investment_amount
         
 
+
 def get_ticker_data(ticker_list, years_back = 3):
     ''''
     Iterates through each ticker in user portfolio and fetches OHLCV data from Yahoo Finance API into a pandas dataframe. 
@@ -79,21 +80,6 @@ def get_ticker_data(ticker_list, years_back = 3):
     # create empty dataframe
     cryptos_final = pd.DataFrame()
     
-    # Get timeframe 
-    #interval_list = ['1d', '1w', '1m','1y']
-    #interval = str(input(
-    #    f"\nPlease select the interval: \n"
-    #    f"(Valid intervals: 1d, 1w, 1m, 1y)\n"
-    #)
-    #              )
-                  
-    #while interval not in interval_list:
-    #    print("\nError: You have selected an invalid interval")
-    #    interval = str(input(
-    #        f"Please select the interval: \n"
-    #        f"(Valid intervals: 1d, 1w, 1m, 1y)\n"
-    #    )
-    #                  )
                               
     for ticker in ticker_list:
         try:
@@ -108,6 +94,7 @@ def get_ticker_data(ticker_list, years_back = 3):
             # append the individual crpyto prices 
             if len(crypto_df) == 0:
                 None
+            # Create dataframe with multiindexed columns. Data will need to be in this format for mcforecast script
             else:
                 d[(ticker, "open")] = crypto_df['Open']
                 d[(ticker, "high")] = crypto_df['High']

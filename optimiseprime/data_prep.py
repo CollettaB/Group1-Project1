@@ -62,7 +62,8 @@ def get_investment_amt():
     return investment_amount
         
 
-def get_ticker_data(ticker_list, years_back = 3, freq='1d'):
+
+def get_ticker_data(ticker_list, years_back = 3):
     ''''
     Iterates through each ticker in user portfolio and fetches OHLCV data from Yahoo Finance API into a pandas dataframe. 
     Also records daily returns for each cryptocurrency as separate columns within the same dataframe.
@@ -72,25 +73,38 @@ def get_ticker_data(ticker_list, years_back = 3, freq='1d'):
     years_back (int): Number of years back from the current date, for which data is to be fetched. Set to 3 by default
     '''
     # Initialise dict to record OHLCV data
+    d ={}
     # Define start and end dates
     end = datetime.datetime.now()
     start = datetime.datetime.now() - datetime.timedelta(days= 365 * years_back)
     # create empty dataframe
-    crypto_final = pd.DataFrame()
-                  
+    cryptos_final = pd.DataFrame()
+    
+                              
     for ticker in ticker_list:
-        # download the crypto price 
-        crypto = yf.Ticker(ticker).history(
-            start = start, 
-            end = end, 
-            interval = freq
+        try:
+            # download the crypto price 
+            crypto = yf.Ticker(ticker)
+            crypto_df = crypto.history(
+                start = start, 
+                end = end, 
+                interval = '1d'
             )
             
-        crypto[(ticker, "daily_return")] = crypto['Close'].pct_change()
-        crypto_final = pd.concat([crypto_final, crypto], axis=1)
-        
- 
+            # append the individual crpyto prices 
+            if len(crypto_df) == 0:
+                None
+            # Create dataframe with multiindexed columns. Data will need to be in this format for mcforecast script
+            else:
+                d[(ticker, "open")] = crypto_df['Open']
+                d[(ticker, "high")] = crypto_df['High']
+                d[(ticker, "low")] = crypto_df["Low"]
+                d[(ticker, "close")] = crypto_df["Close"]
+                d[(ticker, "volume")] = crypto_df["Volume"]
+                d[(ticker, "daily_return")] = crypto_df['Close'].pct_change()
+        except Exception:
+            None
     
-    crypto_final = crypto_final.dropna().drop(['Dividends', 'Stock Splits'], axis = 1)
-    
-    return crypto_final
+    d = pd.DataFrame(d)
+    d = d.dropna()
+    return d
