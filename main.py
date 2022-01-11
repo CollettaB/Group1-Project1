@@ -16,8 +16,13 @@ def main():
                 "To analyse a hypothetical portfolio - type 2\n"
             )
                                   )
-        except Exception:
-            print('Error: Invalid Choice.\n')
+        # Print error message if type(portfolio_choice) != int                        
+        except ValueError:
+            print('Error: Invalid response.\n')
+
+        # Print error message if portfolio choice not 1 or 2
+        if portfolio_choice not in [1, 2]:
+            print('Error: Invalid response.\n')
 
     # Get portfolio data from user depending on choice:
 
@@ -112,9 +117,6 @@ def main():
             da.adj_sortino_portfolio(ratios_df, weights, portfolio_value)
         elif column == 'gain_pain':
             da.gain_pain_portfolio(ratios_df, weights, portfolio_value)
-
-
-
 
 if __name__ == '__main__':
     main()
