@@ -117,9 +117,24 @@ def main():
             da.adj_sortino_portfolio(ratios_df, weights, portfolio_value)
         elif column == 'gain_pain':
             da.gain_pain_portfolio(ratios_df, weights, portfolio_value)
+            
+    
+    # Autoregressive model forecasting
+    ticker_close_names = []
+    for ticker in list(weights.index):
+        ticker_close_names.append((ticker, 'close'))    
+        
 
+    portfolio_close_df = portfolio_df[ticker_close_names]
 
+    portfolio_returns_list_df = []
+    for column_name in weights.columns:
+        weights_list = weights[column_name].tolist()
+        portfolio_returns = portfolio_close_df.dot(weights_list)
+        portfolio_returns = portfolio_returns.rename(column_name)
+        portfolio_returns_list_df.append(portfolio_returns)
 
+    
 
 if __name__ == '__main__':
     main()

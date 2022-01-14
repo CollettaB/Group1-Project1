@@ -88,11 +88,13 @@ def sharpe_portfolio(ratios_df, weights, portfolio_value):
     weights(pd.DataFrame): A pd.DataFrame object with calculated weights for each user-specified cryptocurrency, according to the corresponding risk-reward metrics
     portfolio_value(float): The total value of the user portfolio
     '''
-    print("\nMetric: Sharpe Ratio")
-    print("--------------")
     sharpe_ratios = ratios_df['sharpe'].sort_values(ascending = False)
     sharpe_ratios.sort_values(ascending = False, inplace = True)
     sharpe_allocation = {}
+    
+    print("\nMetric: Sharpe Ratio")
+    print("--------------")
+
     # Print Sharpe ratios and recommended portfolio weightings.
     for ticker, ratio in sharpe_ratios.iteritems():
         print(
@@ -120,11 +122,13 @@ def sortino_portfolio(ratios_df, weights, portfolio_value):
     weights(pd.DataFrame): A pd.DataFrame object with calculated weights for each user-specified cryptocurrency, according to the corresponding risk-reward metrics
     portfolio_value(float): The total value of the user portfolio
     '''
-    print("\nMetric: Sortino Ratio")
-    print("--------------")
     sortino_ratios = ratios_df['sortino'].sort_values(ascending = False)
     sortino_ratios.sort_values(ascending = False, inplace = True)
     sortino_allocation = {}
+    
+    print("\nMetric: Sortino Ratio")
+    print("--------------")
+
     # Print sortino ratios and recommended portfolio weightings.
     for ticker, ratio in sortino_ratios.iteritems():
         print(
@@ -151,11 +155,13 @@ def adj_sortino_portfolio(ratios_df, weights, portfolio_value):
     weights(pd.DataFrame): A pd.DataFrame object with calculated weights for each user-specified cryptocurrency, according to the corresponding risk-reward metrics
     portfolio_value(float): The total value of the user portfolio
     '''
-    print("\nMetric: Adjusted Sortino Ratio")
-    print("--------------")
     adj_sortino_ratios = ratios_df['adj_sortino'].sort_values(ascending = False)
     adj_sortino_ratios.sort_values(ascending = False, inplace = True)
     adj_sortino_allocation = {}
+    
+    print("\nMetric: Adjusted Sortino Ratio")
+    print("--------------")
+
     # Print adj sortino ratios and recommended portfolio weightings.
     for ticker, ratio in adj_sortino_ratios.iteritems():
         print(
@@ -182,11 +188,13 @@ def gain_pain_portfolio(ratios_df, weights, portfolio_value):
     weights(pd.DataFrame): A pd.DataFrame object with calculated weights for each user-specified cryptocurrency, according to the corresponding risk-reward metrics
     portfolio_value(float): The total value of the user portfolio
     '''
-    print("\nMetric: Gain-to-Pain Ratio")
-    print("--------------")
     gain_pain_ratios = ratios_df['gain_pain'].sort_values(ascending = False)
     gain_pain_ratios.sort_values(ascending = False, inplace = True)
     gain_pain_allocation = {}
+    
+    print("\nMetric: Gain-to-Pain Ratio")
+    print("--------------")
+
     # Print gain pain ratios and recommended portfolio weightings.
     for ticker, ratio in gain_pain_ratios.iteritems():
         print(
@@ -201,3 +209,34 @@ def gain_pain_portfolio(ratios_df, weights, portfolio_value):
     # Convert gain_pain_allocation dict to pd.Series
     gain_pain_allocation= pd.Series(gain_pain_allocation)
     return gain_pain_allocation
+
+def user_portfolio( weights, portfolio_value):
+    '''
+    Calculates the portfolio allocations based off monetary amount user has invested in existing crypto assets.
+    
+    
+    Parameters:
+    ratios_df(pd.DataFrame): A pd.DataFrame with financial risk-reward ratios of user-specified cryptocurrencies
+    weights(pd.DataFrame): A pd.DataFrame object with calculated weights for each user-specified cryptocurrency, according to the corresponding risk-reward metrics
+    portfolio_value(float): The total value of the user portfolio
+    '''
+    user_allocation = {}
+    user_weights = weights.iloc[:,4]
+    
+    print("\nYour Current Portfolio")
+    print("--------------")
+    
+    # Print user portfolio weightings.
+    
+    for ticker in user_weights.index:
+        print(ticker)
+        print(
+            f"{'Current weight':<35}{user_weights[ticker]*100:.2f}%"
+        )
+        user_allocation[ticker] = portfolio_value * user_weights[ticker]
+        print(f"{'Current value':<35}{'$'}{user_allocation[ticker]:.2f}\n")
+
+
+    # Convert user_allocation dict to pd.Series
+    user_allocation= pd.Series(user_allocation)
+    return user_allocation
