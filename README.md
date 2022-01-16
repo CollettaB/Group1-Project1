@@ -37,7 +37,7 @@ The programme provides an analysis of the cryptoassets in the user's portfolio, 
 ### **Recommended Weightages**
 The programme then computes a list of recommended portfolio weightages for each crypto asset. To do this, it takes the given ratio for the particular asset, and divides by the sum of all ratios. 
 
-For example, if BTC has a Sharpe ratio of 1.5, and ETH has a Sharpe of 2, the recommended weightage that should be allocated to BTC would then by $1.5 \ (1.5 + 2) = 0.43 $
+For example, if BTC has a Sharpe ratio of 1.5, and ETH has a Sharpe of 2, the recommended weightage that should be allocated to BTC would then be $1.5 \ (1.5 + 2) = 0.43 $
 
 ---
 
