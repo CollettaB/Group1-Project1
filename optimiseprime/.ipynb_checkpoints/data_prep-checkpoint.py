@@ -108,3 +108,49 @@ def get_ticker_data(ticker_list, years_back = 3):
     d = pd.DataFrame(d)
     d = d.dropna()
     return d
+
+def check (portfolio_choice, ticker_list, portfolio_value):
+    if portfolio_choice == 1:    
+        # Calculate portfolio value of each cryptocurrency held
+        for ticker in existing_portfolio:
+            existing_portfolio[ticker].append(
+                {'value': portfolio_df[ticker].iloc[-1, 3] * existing_portfolio[ticker][0]['units']})
+        print(f"--------------------------")                      
+        print(f"Existing Portfolio:")
+        portfolio_value = 0
+        for ticker, units in existing_portfolio.items():
+            value = existing_portfolio[ticker][1]['value']
+            print(f"Value of {existing_portfolio[ticker][0]['units']} {ticker}: ${value:.2f}")
+            portfolio_value += value
+        
+        for ticker, units in existing_portfolio.items():
+            weight = existing_portfolio[ticker][1]['value'] / portfolio_value
+            existing_portfolio[ticker][1]['weight'] = weight
+            
+        print(f"\nTotal portfolio value: ${portfolio_value:.2f}\n")       
+
+
+        #find current weights
+        print("Crypto Weights")
+        print(f"The portfolio holds:")
+        for ticker, units in existing_portfolio.items():
+            weight_list.append(existing_portfolio[ticker][1]['weight'])
+            value_list.append(existing_portfolio[ticker][1]['value'])
+        pie_df = px.data.tips()
+        px.pie(pie_df, values=value_list, names=ticker_list,   title="Distribution of existing portfolio", color_discrete_sequence=px.colors.sequential.RdBu).show()
+    
+    elif portfolio_choice == 2:
+        print(
+            f"--------------------------\n"
+            f"Hypothetical Portfolio:\n"
+            f"{[ticker.replace('-USD', '') for ticker in ticker_list]}\n"                   
+            f"Investment amount:\n"
+            f"${portfolio_value:.2f}\n")
+    print(
+        f"NOTE:\n"
+        f"To achieve a fair comparison of risk-reward ratios, historical price data will be retrieved from earliest date for which ALL cryptocurrencies specified are available.\n"
+        f"While this ensures fair comparison of risk-reward metrics, it may compromise accuracy of these metrics if the sample sizes of historical price data are reduced.\n"
+        f"Earliest date for which price data is available for all cryptocurrencies in your portfolio: {dt.datetime.date(portfolio_df.index[0])}"
+    )
+    print(f"--------------------------")
+    return portfolio_value
