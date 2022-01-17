@@ -52,9 +52,6 @@ class MCSimulation:
         if weights == "":
             num_stocks = len(portfolio_data.columns.get_level_values(0).unique())
             weights = [1.0/num_stocks for s in range(0,num_stocks)]
-        else:
-            if round(sum(weights),2) < .99:
-                raise AttributeError("Sum of portfolio weights must equal one.")
         
         # Calculate daily return if not within dataframe
         if not "daily_return" in portfolio_data.columns.get_level_values(1).unique():
